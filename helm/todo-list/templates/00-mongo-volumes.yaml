@@ -1,0 +1,40 @@
+{{- if .Values.mongoVolumes.enabled }}
+{{- $storageClass := .Values.mongoVolumes.storageClassName }}
+{{- $size := .Values.mongoVolumes.storageSize }}
+{{- $reclaim := .Values.mongoVolumes.reclaimPolicy }}
+{{- $nfsServer := .Values.mongoVolumes.nfsServer }}
+{{- $basePath := .Values.mongoVolumes.basePath }}
+{{- $replicas := int .Values.mongoVolumes.replicas }}
+
+{{- range $i := until $replicas }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv-{{ $i }}
+spec:
+  capacity:
+    storage: {{ $size }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: {{ $reclaim }}
+  storageClassName: {{ $storageClass }}
+  nfs:
+    path: {{ printf "%s/mongo-%d" $basePath $i }}
+    server: {{ $nfsServer }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-data-mongo-{{ $i }}
+spec:
+  volumeName: mongo-pv-{{ $i }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ $size }}
+{{- end }}
+{{- end }}
+

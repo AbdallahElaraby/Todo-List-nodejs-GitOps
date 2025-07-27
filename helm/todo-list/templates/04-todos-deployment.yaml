@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "todo-list.fullname" . }}-nodejs
+  labels:
+    app: todos-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-nodejs
+  template:
+    metadata:
+      labels:
+        app: todos-nodejs
+    spec:
+      containers:
+        - name: todos-nodejs
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 4000
+          env:
+            - name: mongoDbUrl
+              value: "mongodb://my-final-todo-list-mongo:27017/todolistDb"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+
