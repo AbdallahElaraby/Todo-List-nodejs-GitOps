@@ -7,11 +7,11 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: docker.io/abdallahelaraby/myapp
+  repository: docker.io//myapp
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: a023ddfcb5436e7dfad305936928a30889b80ba0
 service:
   type: ClusterIP
   port: 4000
