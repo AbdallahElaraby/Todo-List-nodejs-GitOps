@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: todo-list-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AbdallahElaraby/Todo-List-nodejs-GitOps
+    targetRevision: main
+    path: helm/todo-list
+    helm:
+      releaseName: my-final
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
