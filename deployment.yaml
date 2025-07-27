@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todos-nodejs
-          image: docker.io/abdallahelaraby/myapp:some-tag
+          image: docker.io//myapp:4f136163719dc86dd6b2e87b068c2b06f2a5becb
           ports:
             - containerPort: 4000
           env:
