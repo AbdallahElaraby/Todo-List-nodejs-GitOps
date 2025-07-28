@@ -11,7 +11,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongo-pv-{{ $i }}
+  name:  mongo-data-my-final-todo-list-mongo-{{ $i }}
 spec:
   capacity:
     storage: {{ $size }}
@@ -27,14 +27,15 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-data-mongo-{{ $i }}
+  name: mongo-data-my-final-todo-list-mongo-{{ $i }}
 spec:
-  volumeName: mongo-pv-{{ $i }}
+  volumeName: mongo-data-my-final-todo-list-mongo-{{ $i }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: {{ $size }}
+  storageClassName: ""
 {{- end }}
 {{- end }}
 
