@@ -32,7 +32,7 @@ mongoVolumes:
   storageClassName:  ""   #standard
   storageSize: 1Gi
   reclaimPolicy: Retain
-  nfsServer: 192.168.1.11
+  nfsServer: 10.0.1.10
   basePath: /home/abdallah/statefulset/nfs
   replicas: 3
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
