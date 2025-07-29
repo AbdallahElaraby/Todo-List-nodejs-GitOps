@@ -14,6 +14,17 @@ spec:
       labels:
         app: todos-nodejs
     spec:
+      initContainers:
+        - name: wait-for-mongo-init
+          image: mongo:6.0
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              echo "Waiting for MongoDB primary (mongo-0) to be ready..."
+              until mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
+                echo "MongoDB not ready yet. Sleeping 5s..."
+                sleep 5
+              done
       containers:
         - name: todos-nodejs
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
