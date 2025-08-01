@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 7101b4871ad8c6aeadb10d73be9ab5c1d40c8075
+  tag: 815f9771b550cfee63087b96456cb48e366bac1e
 service:
   type: ClusterIP
   port: 4000
