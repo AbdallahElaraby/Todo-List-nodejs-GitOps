@@ -26,7 +26,7 @@ spec:
 
               echo "Running replica set initiation..."
 
-              mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval '
+              mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval '
                 try {
                   const status = rs.status();
                   if (status.ok === 1) {
