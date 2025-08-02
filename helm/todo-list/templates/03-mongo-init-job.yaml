@@ -19,14 +19,14 @@ spec:
           args:
             - |
               echo "Waiting for MongoDB primary (mongo-0) to be ready..."
-              until mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
+              until mongosh "mongodb://admin:admin123{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
                 echo "MongoDB not ready yet. Sleeping 5s..."
                 sleep 5
               done
 
               echo "Running replica set initiation..."
 
-              mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval '
+              mongosh "mongodb://admin:admin123{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval '
                 try {
                   const status = rs.status();
                   if (status.ok === 1) {
