@@ -21,7 +21,7 @@ spec:
           args:
             - |
               echo "Waiting for MongoDB primary (mongo-0) to be ready..."
-              until mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017/admin" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
+              until mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
                 sleep 5
               done
       containers:
@@ -32,7 +32,7 @@ spec:
             - containerPort: 4000
           env:
             - name: mongoDbUrl
-              value: "mongodb://admin:admin123@my-final-todo-list-mongo:27017/todolistDb?authSource=admin"
+              value: "mongodb://my-final-todo-list-mongo:27017/todolistDb"
           resources:
             requests:
               cpu: "100m"
