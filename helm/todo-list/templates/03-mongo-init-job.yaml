@@ -17,16 +17,16 @@ spec:
           image: mongo:6.0
           command: [ "sh", "-c" ]
           args:
-              - |
-                echo "Waiting for MongoDB primary (mongo-0) to be ready..."
-                until mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017/admin" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
-                  echo "MongoDB not ready yet. Sleeping 5s..."
-                  sleep 5
-                done
-            
-                echo "Running replica set initiation..."
-            
-                cat <<EOF | mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017/admin"
+            - |
+              echo "Waiting for MongoDB primary (mongo-0) to be ready..."
+              until mongosh "mongodb://{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
+                echo "MongoDB not ready yet. Sleeping 5s..."
+                sleep 5
+              done
+
+              echo "Running replica set initiation..."
+
+              mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" --eval '
                 try {
                   const status = rs.status();
                   if (status.ok === 1) {
@@ -47,40 +47,5 @@ spec:
                     print("Unexpected error: " + e);
                   }
                 }
-            EOF
-
-
-
-          
-            # - |
-            #   echo "Waiting for MongoDB primary (mongo-0) to be ready..."
-            #   until mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017/admin" --eval "db.runCommand({ ping: 1 })" > /dev/null 2>&1; do
-            #     echo "MongoDB not ready yet. Sleeping 5s..."
-            #     sleep 5
-            #   done
-
-            #   echo "Running replica set initiation..."
-
-            #   mongosh "mongodb://admin:admin123@{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017/admin" --eval '
-            #     try {
-            #       const status = rs.status();
-            #       if (status.ok === 1) {
-            #         print("Replica set already initialized.");
-            #       }
-            #     } catch (e) {
-            #       if (e.code === 94 || e.codeName === "NotYetInitialized") {
-            #         print("No replica set config found. Initializing...");
-            #         rs.initiate({
-            #           _id: "rs0",
-            #           members: [
-            #             { _id: 0, host: "{{ include "todo-list.fullname" . }}-mongo-0.{{ include "todo-list.fullname" . }}-mongo:27017" },
-            #             { _id: 1, host: "{{ include "todo-list.fullname" . }}-mongo-1.{{ include "todo-list.fullname" . }}-mongo:27017" },
-            #             { _id: 2, host: "{{ include "todo-list.fullname" . }}-mongo-2.{{ include "todo-list.fullname" . }}-mongo:27017" }
-            #           ]
-            #         });
-            #       } else {
-            #         print("Unexpected error: " + e);
-            #       }
-            #     }
-            #   '
+              '
       backoffLimit: 1
