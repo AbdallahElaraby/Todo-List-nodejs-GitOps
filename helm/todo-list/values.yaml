@@ -23,6 +23,6 @@ mongoVolumes:
   storageClassName:  ""   
   storageSize: 1Gi
   reclaimPolicy: Retain
-  nfsServer: 192.168.183.135
-  basePath: /home/abdallah/statefulset/nfs
+  nfsServer: 10.0.1.10
+  basePath: /home/ec2-user/statefulset/nfs
   replicas: 3
