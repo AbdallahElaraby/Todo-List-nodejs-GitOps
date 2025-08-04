@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: docker.io/abdallahelaraby/myapp
   pullPolicy: IfNotPresent
-  tag: 8f7295205ecfc8696a7c37b711d73f5491e92988
+  tag: d9c12cd80e013e6c03e9c9886bc3aba73bdebeff
 service:
   type: ClusterIP
   port: 4000
